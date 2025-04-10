@@ -5,46 +5,40 @@ using UnityEngine;
 
 public class RaceTimer : MonoBehaviour
 {
-    [SerializeField] private float penaltyTime = 1f;
-    
-    private bool timerRunning = false;
+    bool timerRunning = false;
     private float raceTime = 0;
-
-    private void Update()
-    {
-        if(timerRunning)
-            raceTime += Time.deltaTime;
-    }
     private void OnEnable()
     {
-        GameEvents.raceStart += StartRace;
-        GameEvents.raceEnd += FinishRace;
-        GameEvents.racePenalty += Penalty;
+        GameManager.RaceStart += StartRaceTimer;
+        GameManager.RaceFinish += StopRaceTimer;
+        GameManager.RacePenalty += RacePenalty;
     }
-
     private void OnDisable()
     {
-        GameEvents.raceStart -= StartRace;
-        GameEvents.raceEnd -= FinishRace;
-        GameEvents.racePenalty -= Penalty;
+        GameManager.RaceStart -= StartRaceTimer;
+        GameManager.RaceFinish -= StopRaceTimer;
+        GameManager.RacePenalty -= RacePenalty;
     }
-
-    private void Penalty()
+    private void Update()
     {
-        raceTime += penaltyTime;
-        Debug.Log("Penalty received");
+        if (timerRunning)
+            raceTime += Time.deltaTime;
+    }
+    private void RacePenalty()
+    {
+        raceTime += 1;
+        Debug.Log("penalty recieved");
     }
 
-    private void StartRace()
+
+    private void StartRaceTimer()
     {
         timerRunning = true;
-        Debug.Log("Race started");
+        Debug.Log("race started");
     }
-
-    private void FinishRace()
+    private void StopRaceTimer()
     {
         timerRunning = false;
-        Debug.Log("Race finished");
-        Debug.Log("Race time: " + raceTime);
+        Debug.Log("Race finished! Race time: "+ raceTime);
     }
 }
