@@ -9,6 +9,7 @@ public class GameOverUI : MonoBehaviour
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private Image overlay;
     [SerializeField] private int nextLevelIndex = 1;
+    [SerializeField] private LeaderboardUI leaderboardUI;
     private void Start()
     {
         overlay.CrossFadeAlpha(0,1f,true);
@@ -27,6 +28,7 @@ public class GameOverUI : MonoBehaviour
     private void EnableGameOverUI()
     {
         gameOverUI.SetActive(true);
+        leaderboardUI.ShowLeaderboard();
     }
     public void RestartLevel()
     {
@@ -66,6 +68,5 @@ public class GameOverUI : MonoBehaviour
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(nextLevelIndex);
     }
-
 }
 
